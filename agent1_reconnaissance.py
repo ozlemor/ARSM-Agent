@@ -1,5 +1,9 @@
 from agno.agent import Agent
 from agno.models.groq import Groq
+from pydantic import BaseModel
+from typing import List
+
+# ─── Architecture ARMS ───────────────────────────────────────────
 arms_architecture = {
     "source_données": {
         "core_banking": "Système bancaire principal",
@@ -30,27 +34,40 @@ arms_architecture = {
     }
 }
 
+# ─── Modèles de sortie structurée ────────────────────────────────
+class Vulnerabilite(BaseModel):
+    composant: str
+    description: str
+    criticite: str
+    vecteur_attaque: str
+    lien_reglementaire: str
+    recommandation_agent2: str
+    recommandation_agent3: str
+
+class RapportReconnaissance(BaseModel):
+    vulnerabilites: List[Vulnerabilite]
+    surface_attaque_globale: str
+    priorite_cibles: List[str]
+
+# ─── Agent Reconnaissance ─────────────────────────────────────────
 agent = Agent(
     name="Reconnaissance",
     model=Groq(id="llama-3.3-70b-versatile"),
-    description=f"""Tu es un agent de reconnaissance dont la mission est d'analyser 
-l'architecture du système ARMS de BNP Paribas.
-
-L'architecture du système ARMS est la suivante:
+    description=f"""Tu es un agent de reconnaissance expert en cybersécurité bancaire.
+Tu analyses l'architecture du système ARMS de BNP Paribas.
+Architecture cible :
 {arms_architecture}
-
-Tes objectifs sont:
-1. Analyser chaque composant du système
-2. Identifier les points faibles de chaque composant
-3. Rapporter les 3 vulnérabilités les plus critiques
-4. Proposer des recommandations pour les agents 2 et 3
-
-Pour chaque vulnérabilité trouvée, précise:
-- Niveau de criticité: Faible/Moyen/Élevé/Critique
-- Vecteur d'attaque possible
-- Lien avec DORA ou MiCA ou AI Act
-- Recommandation pour Agent 2 (attaque technique)
-- Recommandation pour Agent 3 (attaque IA/données)"""
+INSTRUCTIONS :
+- Analyse CHAQUE composant des 4 couches
+- Identifie les TOP 3 vulnérabilités les plus critiques
+- Relie chaque faille à DORA, MiCA ou AI Act
+- Fournis des recommandations concrètes pour Agent 2 et Agent 3
+- Priorise : crypto_api, api_gateway, aml_engine (cibles prioritaires)
+Réponds uniquement en JSON structuré."""
 )
 
-agent.print_response("Analyse le système ARMS et génère un rapport.")
+# ─── Lancement + export du rapport ───────────────────────────────
+if __name__ == "__main__":
+    agent.print_response("Analyse le système ARMS et génère un rapport.")
+    
+    print("\n===== RAPPORT DE RECONNAISSANCE =====\n")
