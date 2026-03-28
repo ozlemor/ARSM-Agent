@@ -1,0 +1,40 @@
+{
+  "attaques": [
+    {
+      "technique": "DATA_POISONING",
+      "modele_cible": "fraud_detection",
+      "description_attaque": "Injection de 500 fausses transactions propres associees a un compte frauduleux pour corrompre le modele de detection de fraude",
+      "donnees_injectees": "500 transactions de 100 EUR chacune, effectuees sur 30 jours, avec des caracteristiques similaires aux transactions legitimes",
+      "effet_attendu": "Le modele de detection de fraude reduit sa precision et ne detecte plus les fraudes reelles, car les donnees d'entrainement ont ete corrompues",
+      "detection_possible": "non",
+      "raison_non_detection": "Les donnees injectees sont conquees pour ressembler aux transactions legitimes, ce qui rend difficile pour le modele de les detecter comme fraudes",
+      "lien_reglementaire": "AI Act Art.13 : obligation de transparence et d'explicabilite des decisions prises par les modeles IA",
+      "score_danger": 0.8
+    },
+    {
+      "technique": "INPUT_PERTURBATION",
+      "modele_cible": "aml_engine",
+      "description_attaque": "Fractionnement de 50 000 EUR en 51 virements de 980 EUR pour eviter la detection par le moteur de regles de lutte contre le blanchiment d'argent",
+      "donnees_injectees": "51 virements de 980 EUR chacun, effectues sur 5 jours, avec des beneficiaires differents",
+      "effet_attendu": "Le moteur de regles ne detecte pas les transactions comme suspectes, car elles sont en dessous du seuil de detection de 10 000 EUR",
+      "detection_possible": "partielle",
+      "raison_non_detection": "Le moteur de regles est configure pour detecter les transactions au-dessus de 10 000 EUR, mais les transactions fractionnees peuvent passer inapercues",
+      "lien_reglementaire": "DORA : obligation de mettre en place des mesures de lutte contre le blanchiment d'argent et le financement du terrorisme",
+      "score_danger": 0.7
+    },
+    {
+      "technique": "INJECTION_BIAIS",
+      "modele_cible": "anomaly_detection",
+      "description_attaque": "Introduction d'un biais systematique dans la detection des anomalies pour faire ignorer un pattern de fraude precis",
+      "donnees_injectees": "100 transactions avec un pattern de fraude precis, mais avec des caracteristiques qui font que le modele les considere comme normales",
+      "effet_attendu": "Le modele d'anomaly detection ne detecte plus les anomalies reelles, car il a ete biaise pour considerer les transactions frauduleuses comme normales",
+      "detection_possible": "non",
+      "raison_non_detection": "Le biais introduit dans le modele fait que les transactions frauduleuses sont considerees comme normales, ce qui rend difficile leur detection",
+      "lien_reglementaire": "MiCA : obligation de garantir la securite et la fiabilite des modeles IA",
+      "score_danger": 0.9
+    }
+  ],
+  "resume_impact": "Les attaques adversariales peuvent avoir un impact significatif sur la securite et la fiabilite des modeles IA d'ARMS, en reduisant leur precision et leur capacite a detecter les fraudes et les anomalies",
+  "recommandation_agent4": "Signaler les violations reglementaires suivantes : non-respect de l'obligation de transparence et d'explicabilite des decisions prises par les modeles IA (AI Act Art.13), non-respect de l'obligation de mettre en place des mesures de lutte contre le blanchiment d'argent et le financement du terrorisme (DORA), non-respect de l'obligation de garantir la securite et la fiabilite des modeles IA (MiCA)",
+  "recommandation_agent5": "Scorer l'impact financier des attaques adversariales en fonction de la perte potentielle de revenus et de la perte de confiance des clients, et recommander des mesures pour renforcer la securite et la fiabilite des modeles IA d'ARMS"
+}

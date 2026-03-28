@@ -1,75 +1,181 @@
 from dotenv import load_dotenv
 load_dotenv()
+
 from agno.agent import Agent
 from agno.models.groq import Groq
-from pydantic import BaseModel
-from typing import List
+import json
+import os
 
-# ─── Architecture ARMS ───────────────────────────────────────────
-arms_architecture = {
-    "source_données": {
-        "core_banking": "Système bancaire principal",
-        "transactions_db": "Base de données des transactions",
-        "clients_db": "Base de données des profils clients",
-        "blacklist_db": "Base de données AML/LCB-FT"
+# ----------------------------------------------------------------
+# CHARGEMENT DU RAPPORT DE L'AGENT 1
+# ----------------------------------------------------------------
+def charger_rapport_reconnaissance():
+    if os.path.exists("rapport_reconnaissance.json"):
+        with open("rapport_reconnaissance.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {
+        "priorite_cibles": [
+            "fraud_detection",
+            "aml_engine",
+            "anomaly_detection"
+        ]
+    }
+
+rapport_recon = charger_rapport_reconnaissance()
+
+# ----------------------------------------------------------------
+# DESCRIPTION DES MODELES IA D'ARMS
+# ----------------------------------------------------------------
+couche_ia_arms = {
+    "fraud_detection": {
+        "type": "Modele de classification binaire",
+        "input": "montant, frequence, localisation, historique client",
+        "output": "score fraude 0-1 (seuil alerte = 0.75)",
+        "donnees_entrainement": "24 mois de transactions historiques"
     },
-    "connexions_externes": {
-        "swift": "Réseau de transferts internationaux",
-        "crypto_api": "Connexions Binance/Coinbase",
-        "kyc": "Service de vérification d'identité",
-        "banque_centrale": "Connexion Banque de France",
-        "visa_mastercard": "Réseau de paiement carte"
+    "aml_engine": {
+        "type": "Moteur de regles + ML hybride",
+        "input": "patterns de transactions, profil client, blacklist",
+        "output": "alerte LCB-FT oui/non + score de risque",
+        "seuil_detection": "transactions > 10 000 EUR ou patterns suspects"
     },
-    "infrastructure": {
-        "cloud": "AWS/Azure",
-        "api_gateway": "Point d'entrée des requêtes",
-        "load_balancer": "Répartition de charge",
-        "firewall": "Protection réseau",
-        "logs": "Système de journalisation",
-        "monitoring": "Surveillance en temps réel"
+    "anomaly_detection": {
+        "type": "Modele non supervise (clustering)",
+        "input": "comportement transactionnel en temps reel",
+        "output": "score anomalie + categorie de risque",
+        "baseline": "comportement normal des 90 derniers jours"
     },
-    "couche_ia": {
-        "fraud_detection": "Modèle de détection de fraude",
-        "aml_engine": "Moteur anti-blanchiment",
-        "risk_scoring": "Calcul de score de risque",
-        "anomaly_detection": "Détection d'anomalies comportementales"
+    "risk_scoring": {
+        "type": "Modele de regression",
+        "input": "donnees agregees des 3 autres modeles",
+        "output": "score de risque global client 0-100"
     }
 }
 
-# ─── Modèles de sortie structurée ────────────────────────────────
-class Vulnerabilite(BaseModel):
-    composant: str
-    description: str
-    criticite: str
-    vecteur_attaque: str
-    lien_reglementaire: str
-    recommandation_agent2: str
-    recommandation_agent3: str
-
-class RapportReconnaissance(BaseModel):
-    vulnerabilites: List[Vulnerabilite]
-    surface_attaque_globale: str
-    priorite_cibles: List[str]
-
-# ─── Agent Reconnaissance ─────────────────────────────────────────
-agent = Agent(
-    name="Reconnaissance",
+# ----------------------------------------------------------------
+# CREATION DE L'AGENT
+# ----------------------------------------------------------------
+agent_ia_adversaire = Agent(
+    name="IA Adversaire",
     model=Groq(id="llama-3.3-70b-versatile"),
-    description=f"""Tu es un agent de reconnaissance expert en cybersécurité bancaire.
-Tu analyses l'architecture du système ARMS de BNP Paribas.
-Architecture cible :
-{arms_architecture}
-INSTRUCTIONS :
-- Analyse CHAQUE composant des 4 couches
-- Identifie les TOP 3 vulnérabilités les plus critiques
-- Relie chaque faille à DORA, MiCA ou AI Act
-- Fournis des recommandations concrètes pour Agent 2 et Agent 3
-- Priorise : crypto_api, api_gateway, aml_engine (cibles prioritaires)
-Réponds uniquement en JSON structuré."""
+    description=f"""Tu es un expert en attaques adversariales contre les systemes IA bancaires.
+
+Ta mission : simuler des attaques realistes sur les modeles IA du systeme ARMS de BNP Paribas.
+
+=== MODELES IA CIBLES ===
+{json.dumps(couche_ia_arms, ensure_ascii=False, indent=2)}
+
+=== CIBLES PRIORITAIRES IDENTIFIEES PAR AGENT 1 ===
+{rapport_recon.get('priorite_cibles', ['fraud_detection', 'aml_engine'])}
+
+=== TES 3 TECHNIQUES D'ATTAQUE ===
+
+1. DATA POISONING
+   - Injecte de fausses transactions dans les donnees d entrainement
+   - Objectif : corrompre le modele pour qu il rate les fraudes
+   - Exemple : creer 500 fausses transactions propres associees a un compte frauduleux
+
+2. INPUT PERTURBATION
+   - Modifie subtilement les donnees en temps reel
+   - Objectif : passer sous le seuil de detection
+   - Exemple : fractionner 50 000 EUR en 51 virements de 980 EUR
+
+3. INJECTION DE BIAIS
+   - Introduis un biais systematique dans la detection
+   - Objectif : que l IA ignore un pattern de fraude precis
+   - Exemple : transactions crypto systematiquement sous-scorees
+
+Reponds UNIQUEMENT avec ce JSON sans texte avant ou apres :
+{{
+  "attaques": [
+    {{
+      "technique": "DATA_POISONING",
+      "modele_cible": "nom du modele attaque",
+      "description_attaque": "explication detaillee",
+      "donnees_injectees": "exemple concret avec chiffres reels",
+      "effet_attendu": "quel comportement errone est provoque",
+      "detection_possible": "oui|non|partielle",
+      "raison_non_detection": "pourquoi ARMS ne voit pas l attaque",
+      "lien_reglementaire": "AI Act Art.13 / DORA / MiCA",
+      "score_danger": 0.9
+    }},
+    {{
+      "technique": "INPUT_PERTURBATION",
+      "modele_cible": "",
+      "description_attaque": "",
+      "donnees_injectees": "",
+      "effet_attendu": "",
+      "detection_possible": "",
+      "raison_non_detection": "",
+      "lien_reglementaire": "",
+      "score_danger": 0.0
+    }},
+    {{
+      "technique": "INJECTION_BIAIS",
+      "modele_cible": "",
+      "description_attaque": "",
+      "donnees_injectees": "",
+      "effet_attendu": "",
+      "detection_possible": "",
+      "raison_non_detection": "",
+      "lien_reglementaire": "",
+      "score_danger": 0.0
+    }}
+  ],
+  "resume_impact": "description globale de l impact sur ARMS",
+  "recommandation_agent4": "quelles violations reglementaires signaler",
+  "recommandation_agent5": "comment scorer l impact financier"
+}}"""
 )
 
-# ─── Lancement + export du rapport ───────────────────────────────
+# ----------------------------------------------------------------
+# LANCEMENT ET TRAITEMENT DE LA REPONSE
+# ----------------------------------------------------------------
 if __name__ == "__main__":
-    agent.print_response("Analyse le système ARMS et génère un rapport.")
-    
-    print("\n===== RAPPORT DE RECONNAISSANCE =====\n")
+
+    print("Agent 3 - IA Adversaire en cours d analyse...\n")
+
+    reponse = agent_ia_adversaire.run(
+        """Simule les 3 attaques adversariales sur les modeles IA d ARMS.
+        Donne des exemples concrets avec des donnees chiffrees realistes.
+        Explique precisement pourquoi ARMS ne detecte pas ces attaques."""
+    )
+
+    texte = reponse.content
+
+    if "```json" in texte:
+        texte = texte.split("```json")[1].split("```")[0].strip()
+    elif "```" in texte:
+        texte = texte.split("```")[1].split("```")[0].strip()
+
+    try:
+        rapport = json.loads(texte)
+
+        print("===== RAPPORT ATTAQUES IA ADVERSARIALES =====\n")
+
+        for i, attaque in enumerate(rapport["attaques"], 1):
+            print(f"[{i}] Technique      : {attaque['technique']}")
+            print(f"    Modele cible   : {attaque['modele_cible']}")
+            print(f"    Description    : {attaque['description_attaque']}")
+            print(f"    Donnees        : {attaque['donnees_injectees']}")
+            print(f"    Effet attendu  : {attaque['effet_attendu']}")
+            print(f"    Detection      : {attaque['detection_possible']}")
+            print(f"    Pourquoi       : {attaque['raison_non_detection']}")
+            print(f"    Reglementation : {attaque['lien_reglementaire']}")
+            print(f"    Danger         : {attaque['score_danger']}/1.0")
+            print()
+
+        print(f"Impact global  : {rapport['resume_impact']}")
+        print(f"Agent 4        : {rapport['recommandation_agent4']}")
+        print(f"Agent 5        : {rapport['recommandation_agent5']}")
+
+        with open("rapport_ia_adversaire.json", "w", encoding="utf-8") as f:
+            json.dump(rapport, f, ensure_ascii=False, indent=2)
+
+        print("\nRapport exporte -> rapport_ia_adversaire.json")
+
+    except json.JSONDecodeError as e:
+        print(f"Erreur parsing JSON : {e}")
+        with open("rapport_ia_adversaire.json", "w", encoding="utf-8") as f:
+            json.dump({"contenu_brut": reponse.content}, f, ensure_ascii=False, indent=2)
+        print("Rapport brut exporte -> rapport_ia_adversaire.json")

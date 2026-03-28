@@ -2,100 +2,84 @@
   "violations": [
     {
       "reglementation": "DORA",
-      "article": "Art. 28",
-      "description": "Défaillance dans la maîtrise des dépendances critiques externes, notamment la dépendance à l'API crypto_api qui pourrait être exploitée lors d'une attaque",
+      "article": "28",
+      "description": "Défaillance dans la maîtrise des dépendances critiques externes, notamment crypto_api",
       "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des procédures de gestion des dépendances externes, incluant des audits de sécurité réguliers et des plans de continuité en cas de défaillance"
+      "preuve": "Attaque de type CYBER_CLASSIQUE ciblant l'api_gateway et l'utilisation de la dépendance crypto_api pour obtenir des informations sensibles",
+      "action_corrective": "Réévaluer et renforcer les contrôles de sécurité autour des dépendances critiques externes"
     },
     {
       "reglementation": "DORA",
-      "article": "Art. 17",
-      "description": "Défaillance dans la gestion des incidents TIC, notamment en cas d'attaque par déni de service contre l'api_gateway",
-      "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant lance une attaque par déni de service contre l'api_gateway",
-      "action_corrective": "Établir des procédures de gestion d'incidents TIC, incluant des plans de réponse aux attaques par déni de service et des mécanismes de notification des parties prenantes"
+      "article": "17",
+      "description": "Défaillance dans la gestion des incidents TIC, notamment en cas d'attaque de saturation de l'api_gateway",
+      "severite": "Moyen",
+      "preuve": "Attaque de type CYBER_CLASSIQUE ciblant l'api_gateway et provoquant une indisponibilité du système ARMS",
+      "action_corrective": "Développer et mettre en œuvre des plans de gestion des incidents TIC pour répondre rapidement et efficacement aux attaques"
     },
     {
       "reglementation": "DORA",
-      "article": "Art. 11",
-      "description": "Défaillance dans la continuité des activités, notamment en cas d'indisponibilité de l'api_gateway",
+      "article": "11",
+      "description": "Défaillance dans la continuité des activités en cas d'attaque ou d'incident TIC",
       "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'indisponibilité de l'api_gateway affecte la continuité des activités",
-      "action_corrective": "Mettre en place des plans de continuité des activités, incluant des mécanismes de bascule vers des systèmes de secours et des procédures de récupération des données"
+      "preuve": "Attanche de type CYBER_CLASSIQUE ciblant l'api_gateway et provoquant une indisponibilité du système ARMS",
+      "action_corrective": "Élaborer et mettre en œuvre des plans de continuité des activités pour garantir la disponibilité des services essentiels"
     },
     {
       "reglementation": "MiCA",
-      "article": "Art. 70",
-      "description": "Défaillance dans la sécurité des portefeuilles crypto, notamment en cas d'attaque contre l'API crypto_api",
-      "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des mesures de sécurité pour les portefeuilles crypto, incluant des mécanismes de cryptage et des procédures de gestion des clés"
-    },
-    {
-      "reglementation": "MiCA",
-      "article": "Art. 16",
-      "description": "Défaillance dans les obligations des émetteurs de crypto-actifs, notamment en cas d'attaque contre l'API crypto_api",
+      "article": "70",
+      "description": "Défaillance dans la sécurité des portefeuilles crypto, notamment en cas d'utilisation de la dépendance crypto_api",
       "severite": "Moyen",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des procédures de conformité avec les obligations des émetteurs de crypto-actifs, incluant des mécanismes de déclaration et de notification"
+      "preuve": "Attache de type CYBER_CLASSIQUE ciblant l'api_gateway et l'utilisation de la dépendance crypto_api pour obtenir des informations sensibles",
+      "action_corrective": "Renforcer les mesures de sécurité pour la protection des portefeuilles crypto et des informations sensibles"
     },
     {
       "reglementation": "AI Act",
-      "article": "Art. 13",
-      "description": "Défaillance dans la transparence et l'explicabilité de l'IA de détection de fraude, notamment en cas d'attaque contre l'AML Engine",
+      "article": "13",
+      "description": "Défaillance dans la transparence et l'explicabilité de l'IA de détection de fraude (aml_engine)",
       "severite": "Eleve",
-      "preuve": "Scénario DATA_IA, où l'attaquant corrompt les données d'entraînement de l'IA",
-      "action_corrective": "Mettre en place des mécanismes de transparence et d'explicabilité pour l'IA de détection de fraude, incluant des procédures de traçabilité et de documentation"
+      "preuve": "Attache de type DATA_IA ciblant l'aml_engine et permettant à l'attaquant d'effectuer des transactions illicites",
+      "action_corrective": "Améliorer la transparence et l'explicabilité de l'IA de détection de fraude pour garantir une détection plus efficace et plus transparente"
     },
     {
       "reglementation": "AI Act",
-      "article": "Art. 9",
-      "description": "Défaillance dans le système de gestion des risques IA, notamment en cas d'attaque contre l'AML Engine",
-      "severite": "Eleve",
-      "preuve": "Scénario DATA_IA, où l'attaquant corrompt les données d'entraînement de l'IA",
-      "action_corrective": "Mettre en place des systèmes de gestion des risques IA, incluant des procédures de détection et de correction des biais"
-    },
-    {
-      "reglementation": "AI Act",
-      "article": "Art. 17",
-      "description": "Défaillance dans la documentation technique de l'IA de détection de fraude, notamment en cas d'attaque contre l'AML Engine",
+      "article": "9",
+      "description": "Défaillance dans le système de gestion des risques IA, notamment pour l'aml_engine",
       "severite": "Moyen",
-      "preuve": "Scénario DATA_IA, où l'attaquant corrompt les données d'entraînement de l'IA",
-      "action_corrective": "Mettre en place des procédures de documentation technique pour l'IA de détection de fraude, incluant des mécanismes de traçabilité et de versionning"
+      "preuve": "Attache de type DATA_IA ciblant l'aml_engine et permettant à l'attaquant d'effectuer des transactions illicites",
+      "action_corrective": "Développer et mettre en œuvre un système de gestion des risques IA pour identifier et atténuer les risques associés à l'utilisation de l'IA"
     },
     {
       "reglementation": "RGPD",
-      "article": "Art. 25",
-      "description": "Défaillance dans la conception et la mise en œuvre de la protection des données, notamment en cas d'attaque contre l'API crypto_api",
+      "article": "25",
+      "description": "Défaillance dans la conception et la mise en œuvre de la protection des données personnelles par défaut",
       "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des mécanismes de protection des données, incluant des procédures de pseudonymisation et de cryptage"
+      "preuve": "Attache de type CYBER_CLASSIQUE ciblant l'api_gateway et l'utilisation de la dépendance crypto_api pour obtenir des informations sensibles",
+      "action_corrective": "Réévaluer et renforcer les mesures de protection des données personnelles pour garantir la confidentialité et la sécurité des informations"
     },
     {
       "reglementation": "RGPD",
-      "article": "Art. 32",
-      "description": "Défaillance dans la sécurité du traitement des données, notamment en cas d'attaque contre l'API crypto_api",
-      "severite": "Eleve",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des mécanismes de sécurité du traitement des données, incluant des procédures de gestion des accès et des mécanismes de détection des incidents"
-    },
-    {
-      "reglementation": "RGPD",
-      "article": "Art. 33",
-      "description": "Défaillance dans la notification des violations de données, notamment en cas d'attaque contre l'API crypto_api",
+      "article": "32",
+      "description": "Défaillance dans la sécurité du traitement des données personnelles, notamment en cas d'attaque ou d'incident TIC",
       "severite": "Moyen",
-      "preuve": "Scénario CYBER_CLASSIQUE, où l'attaquant exploite les faiblesses de la dépendance critique crypto_api",
-      "action_corrective": "Mettre en place des procédures de notification des violations de données, incluant des mécanismes de déclaration et de notification aux autorités de contrôle"
+      "preuve": "Attache de type CYBER_CLASSIQUE ciblant l'api_gateway et provoquant une indisponibilité du système ARMS",
+      "action_corrective": "Améliorer les mesures de sécurité pour la protection des données personnelles et garantir la confidentialité et la sécurité des informations"
+    },
+    {
+      "reglementation": "RGPD",
+      "article": "33",
+      "description": "Défaillance dans la notification des violations de données personnelles, notamment en cas d'attaque ou d'incident TIC",
+      "severite": "Moyen",
+      "preuve": "Attache de type CYBER_CLASSIQUE ciblant l'api_gateway et provoquant une indisponibilité du système ARMS",
+      "action_corrective": "Développer et mettre en œuvre des procédures pour la notification des violations de données personnelles en cas d'incident TIC"
     }
   ],
   "niveau_risque_global": "Eleve",
   "score_conformite": 0.4,
-  "resume_audit": "L'audit a révélé des défaillances importantes dans la conformité avec les réglementations DORA, MiCA, AI Act et RGPD, notamment en ce qui concerne la sécurité des systèmes et des données. Il est recommandé de mettre en place des mesures correctives pour améliorer la conformité et réduire les risques.",
+  "resume_audit": "Les résultats de l'audit ont révélé des défaillances significatives dans la conformité aux réglementations DORA, MiCA, AI Act et RGPD. Les attaques de type CYBER_CLASSIQUE et DATA_IA ont mis en évidence des vulnérabilités dans la sécurité des dépendances critiques externes, la gestion des incidents TIC, la continuité des activités et la protection des données personnelles. Il est essentiel de prendre des mesures correctives pour renforcer la sécurité et la conformité de l'institution bancaire.",
   "recommandations_prioritaires": [
-    "Mettre en place des procédures de gestion des dépendances externes",
-    "Établir des procédures de gestion d'incidents TIC",
-    "Mettre en place des systèmes de gestion des risques IA",
-    "Mettre en place des mécanismes de protection des données"
+    "Réévaluer et renforcer les contrôles de sécurité autour des dépendances critiques externes",
+    "Développer et mettre en œuvre des plans de gestion des incidents TIC pour répondre rapidement et efficacement aux attaques",
+    "Améliorer la transparence et l'explicabilité de l'IA de détection de fraude pour garantir une détection plus efficace et plus transparente",
+    "Renforcer les mesures de protection des données personnelles pour garantir la confidentialité et la sécurité des informations"
   ]
 }
