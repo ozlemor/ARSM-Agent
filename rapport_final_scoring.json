@@ -1,0 +1,42 @@
+{
+  "summary": {
+    "total_vulnerabilities": 4,
+    "global_risk_score": 6.75,
+    "risk_level": "HIGH"
+  },
+  "details": [
+    {
+      "vulnerability": "sql_injection",
+      "severity": "critical",
+      "priority": 1,
+      "risk_score": 10,
+      "defense": "Use parameterized queries, ORM, and input validation"
+    },
+    {
+      "vulnerability": "rce",
+      "severity": "critical",
+      "priority": 1,
+      "risk_score": 10,
+      "defense": "Sanitize inputs and restrict execution permissions"
+    },
+    {
+      "vulnerability": "xss",
+      "severity": "medium",
+      "priority": 3,
+      "risk_score": 5,
+      "defense": "Escape outputs and sanitize user inputs"
+    },
+    {
+      "vulnerability": "open_port",
+      "severity": "low",
+      "priority": 4,
+      "risk_score": 2,
+      "defense": "Close unused ports and configure firewall"
+    }
+  ],
+  "recommendations": [
+    "Fix critical vulnerabilities immediately",
+    "Apply security best practices (OWASP Top 10)",
+    "Perform regular penetration testing"
+  ]
+}

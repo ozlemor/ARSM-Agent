@@ -1,0 +1,25 @@
+{
+  "scenarios": [
+    {
+      "type": "CYBER_CLASSIQUE",
+      "cible": "api_gateway",
+      "faiblesse": "risque de saturation ou indisponibilité",
+      "deroulement": "L'attaque commence par une campagne de phishing ciblée pour obtenir des informations d'authentification valides. Ensuite, l'attaquant utilise ces informations pour lancer une attaque par déni de service (DoS) contre l'api_gateway, visant à saturer les ressources et rendre le système indisponible. L'attaquant peut également essayer d'exploiter les faiblesses de la dépendance critique crypto_api pour compromettre la sécurité des transactions financières.",
+      "point_de_rupture": "l'indisponibilité de l'api_gateway",
+      "impact": "Perte de confiance des clients, perte financière due à l'indisponibilité du système, risque de fuite de données sensibles"
+    },
+    {
+      "type": "DATA_IA",
+      "cible": "aml_engine",
+      "faiblesse": "risque de mauvaise détection de fraude si données biaisées",
+      "deroulement": "L'attaque commence par la collecte de données biaisées ou fausses qui sont ensuite injectées dans le système ARMS. Cela peut se faire soit en exploitant les faiblesses de la collecte de données pour les APIs externes (crypto, paiement, KYC), soit en utilisant des techniques d'ingénierie sociale pour influencer les données d'entraînement de l'IA de détection de fraude. L'objectif est de faire apprendre à l'algorithme de détection de fraude à considérer les transactions frauduleuses comme légitimes, permettant ainsi aux attaquants d'échapper à la détection.",
+      "point_de_rupture": "la corruption des données d'entraînement de l'IA",
+      "impact": "Augmentation des transactions frauduleuses non détectées, perte financière pour l'institution financière, atteinte à la réputation due à la méconnaissance de la fraude"
+    }
+  ],
+  "synthese": {
+    "scenario_critique": "DATA_IA",
+    "pourquoi": "Car il s'agit d'une attaque plus insidieuse et difficile à détecter, potentiellement permettant à de nombreuses transactions frauduleuses de passer inaperçues, avec des conséquences financières et de réputation importantes.",
+    "recommandations": "Mettre en place des mécanismes de validation et de nettoyage des données, assurer la diversité et la qualité des données d'entraînement pour l'IA, et implémenter des tests réguliers pour détecter les biais potentiels dans l'IA de détection de fraude."
+  }
+}
